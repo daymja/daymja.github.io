@@ -1,0 +1,22 @@
+$SMTPServer = "smtp.office365.com"
+$SMTPPort = "587"
+$Username = "scp.automation@llamasoft.com"
+$Password = "passwordUnknown"
+
+$smtpto = "martin.day@llamasoft.com"
+$smtpFrom = "scp.automation@llamasoft.com"
+$subject = "SmokeTest Results"
+$body = "Here is the latest  <a href='C:\Temp\RanoRex_Reporting\TC18509_DriverScript_20160307_114030.html' Target='_Blank'> results </a> "
+
+$message = New-Object System.Net.Mail.MailMessage $smtpfrom, $smtpto
+$message.subject = $Subject
+$message.IsBodyHTML = $true
+$message.Body = $body
+$message.from = $username
+
+$smtp = New-Object System.Net.Mail.SmtpClient($SMTPServer, $SMTPPort);
+$smtp.EnableSSL = $true
+$smtp.Credentials = New-Object System.Net.NetworkCredential($Username, $Password);
+$smtp.send($message)
+Read-Host "Sending email"
+Read-Host -Prompt "Press Enter to exit"

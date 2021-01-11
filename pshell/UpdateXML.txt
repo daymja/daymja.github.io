@@ -1,0 +1,34 @@
+﻿#Update config file
+function UpdateConfig
+{
+## Get the current URL
+$config='C:\x\x.xml'
+$xml = [xml](Get-Content $config)
+$node = $xml.Node1.Node2.Node3.Node4
+$URL = $node.URL
+clear-host
+write-host "The current URL for testing MultiUser is set to $URL"
+## prompt user for URL
+$update = Read-Host "Do you want to update this URL for the MultiUser tests or use the existing one (Y/N)"
+if($update -in "Y","y")
+{
+$updURL = Read-host -prompt "Enter the new URL"
+$config='C:\x\x.xml'
+$xml = [xml](Get-Content $config)
+$node = $xml.Node1.Node2.Node3.Node4
+$node.URL = "$updURL"
+$xml.save($config)
+write-host "New URL is $updURL"
+}
+elseif ($update -in "N","n")
+{
+$config='C:\x\x.xml'
+$xml = [xml](Get-Content $config)
+$node = $xml.Node1.Node2.Node3.Node4
+$URL = $node.URL
+Write-host "The URL to be used remains as $URL"
+}
+}
+
+##startof script
+UpdateConfig
