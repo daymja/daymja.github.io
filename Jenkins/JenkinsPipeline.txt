@@ -1,0 +1,89 @@
+pipeline 
+{
+   agent 
+   { 
+       label 'docker' 
+   }
+   
+   parameters
+   {
+	choice(
+			name: 'COLLECTION',
+			choices: 'postman_collection_name_A.json\npostman_collection_name_B.json',
+			description: 'Select your Postman collection',
+		) 
+	choice(
+			name: 'TEST_ENVIRONMENT',
+			choices: 'Dev.json\nQA.json\nSTAGING.json',
+			description: 'Select environment for running tests',
+		)
+	choice(
+		name: 'BRANCH',
+		choices: 'master',
+		description: 'Git Branch containing the Postman files',
+	)
+	choice(
+		name: 'DATA_FILE',
+		choices: 'Postman_Parameters_file.json',
+		description: 'Select DATA file to use',
+	)
+		choice(
+		name: 'GLOBALS_FILE',
+		choices: 'workspace.postman_globals.json',
+		description: 'Select GLOBAL file to use',
+	)
+   }
+
+   stages 
+   {
+       stage ('Git Checkout')
+       {
+             steps
+            {
+                script
+                {
+                    git credentialsId: '<git_credentials>', branch: "${BRANCH}", url: 'https://github.com/PostmanScripts.git'
+                }
+            }
+       }
+       
+        stage('Set Build Name')
+       {
+           steps
+           {
+                script
+                {
+                    currentBuild.displayName = currentBuild.displayName + " ${COLLECTION} on ${TEST_ENVIRONMENT}"
+                }
+           }
+	   }
+
+       stage('List Git contents')
+       {
+           steps
+           {
+            script
+                {
+                echo 'List all git files'
+                sh 'ls -a'
+                }
+            }
+       }
+       
+       stage('Pull Newman Docker image')
+       {
+            steps
+            {
+                sh 'docker pull postman/newman:4.5-alpine'          
+            }
+        }
+        
+        stage('Run Postman scripts') 
+        {
+            steps 
+            {
+                sh 'docker run --name name_of_test -v \$(pwd):/etc/newman -t postman/newman run "COLLECTION\${COLLECTION}" --environment="ENVIRONMENT\${ENVIRONMENT} --iteration-data="PostmanParameters.json`'
+            }    
+        }
+   }
+}
