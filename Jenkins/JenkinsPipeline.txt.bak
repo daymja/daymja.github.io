@@ -1,0 +1,91 @@
+pipeline 
+{
+   agent 
+   { 
+       label 'docker' 
+   }
+   
+   parameters
+   {
+	choice(
+			name: 'COLLECTION',
+			choices: 'postman_collection_name_A\npostman_collection_name_B',
+			description: 'Select your Postman collection',
+		) 
+	choice(
+			name: 'ENVIRONMENT',
+			choices: 'Dev\nQA\nSTAGING',
+			description: 'Select environment for running tests',
+		)
+	choice(
+		name: 'BRANCH',
+		choices: 'master',
+		description: 'Git Branch containing the Postman files',
+	)
+	choice(
+		name: 'DATA_FILE',
+		choices: '',
+		description: 'Select DATA file to use',
+	)
+		choice(
+		name: 'GLOBALS_FILE',
+		choices: 'workspace.postman_globals.json',
+		description: 'Select GLOBAL file to use',
+	)
+   }
+
+   stages 
+   {
+       stage ('Git Checkout')
+       {
+             steps
+            {
+                script
+                {
+                    git credentialsId: '<git_credentials>', branch: "${BRANCH}", url: 'https://github.com/PostmanScripts.git'
+                }
+            }
+       }
+       
+        stage('Set Build Name')
+       {
+           steps
+           {
+                script
+                {
+                    currentBuild.displayName = currentBuild.displayName + " ${POSTMAN_COLLECTION} on ${ENVIRONMENT}"
+                }
+           }
+	   }
+
+       stage('List Git contents')
+       {
+           steps
+           {
+            script
+                {
+                echo 'List all git files'
+                sh 'ls -a'
+                }
+            }
+       }
+       
+       stage('Pull Newman Docker image')
+       {
+            steps
+            {
+                sh 'docker pull postman/newman:4.5-alpine'          
+            }
+        }
+        
+        stage('Run Postman scripts') 
+        {
+            steps 
+            {
+                sh 'docker run --rm --name createTestRun -v \$(pwd):/etc/newman -t postman/newman run "Collections/Create_Test_Run_for_TM_using_Data_file.postman_collection.json"  --iteration-data=${DATA_FILE} --environment="Environments/LL-${ENVIRONMENT}.postman_environment.json" --env-var "test_env=${ENVIRONMENT}" --env-var "test_suite_name=Model Building API Tests" --env-var "test_tags=local" --export-environment envModelBuildingWTestRunId.json'
+                sh 'docker run --rm --name modelBuildingApiTests -v \$(pwd):/etc/newman -t postman/newman run "Collections/${POSTMAN_COLLECTION}.postman_collection.json" --iteration-data=${DATA_FILE}  --globals="Globals/${GLOBALS_FILE}" --environment "envModelBuildingWTestRunId.json"  -k'
+                
+            }    
+        }
+   }
+}
