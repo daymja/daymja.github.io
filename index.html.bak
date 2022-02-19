@@ -86,7 +86,7 @@
 						<h3>Scripting Languages</h3>
 						<p><a href="Powershell.html">Powershell</a></p>
 						<p>Batch Commands</p>
-						<p>Jenkins Pipeline</p>
+						<p><a href="Jenkins.html">Jenkins Pipeline</p>
 					</div>
 
 				</div>
