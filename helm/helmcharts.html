@@ -1,0 +1,91 @@
+# Running Selenium Grid Locally using HELM chart
+
+This guide assumes you have basic knowledge of docker such as docker images, docker volume mount etc
+
+### Index
+- [HELM install](#helm-install)
+- [Kubernetes Prerequisites](#kubernetes-prerequisites)
+- [Install Selenium grid using HELM](#install-selenium-grid-using-helm)
+  - [Download Helm chart](#download-helm-chart)
+- [Configure Helm chart](#configure-helm-chart)
+
+### Pre-requisites
+- Docker tool either Docker Desktop or Rancher (enable Kubernetes in either)
+- HELM - follow [official documentation](https://helm.sh/docs/intro/install/) or [recoomendation](https://phoenixnap.com/kb/kubernetes-on-windows)
+
+## Kubernetes Prerequisites
+1. Launch your Docker tool, with Kubernetes enabled
+2. Create a folder for running your tests. For example ```C:\SeleniumGrid```
+3. Right-click on the docker-desktop icon (_whale icon in toolbar_)  
+4. In the docker-desktop menu, navigate to ***Kubernetes Context*** and select ***docker-desktop***
+5. Type k8s command ```kubectl get namespace``` - this should display four namespaces _(for example kube-public, kube-syystem etc)_
+6. Create a new namespace in your cluster, type k8s command ```kubectl create namespace seleniumgrid```
+7. Change your cluster config to use the new namespace, type k8s command
+```
+kubectl config set-context --current --namespace=seleniumgrid
+```
+
+## Install Selenium grid using HELM
+1. Using a terminal, navigate to your local folder previously created,  i.e C:\SeleniumGrid
+2. Add the docker-selenium helm repository, type helm command
+```
+helm repo add docker-selenium https://www.selenium.dev/docker-selenium
+```
+3. Update the charts from the docker-selenium repo, type helm command
+```
+helm repo update
+```
+4. List all the versions present in the docker-selenium repo, type helm command
+```
+helm search repo docker-selenium --versions
+```
+5. Cross-reference with this [website](https://github.com/SeleniumHQ/docker-selenium/releases) on which Helm chart you want to use based on supported Browser versions
+6. Install a new Selenium-grid, type Helm command _(replacing x.xx.x which the Helm chart version i.e 0.36.5)
+```
+helm install selenium-grid docker-selenium/selenium-grid --version x.xx.x
+```
+7. Confirm Helm chart has been created, type Helm command
+```
+helm list
+```
+You should see something similar to this
+```
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+selenium-grid   seleniumgrid    1               2024-11-03 10:18:29.3587239 +0000 UTC   deployed        selenium-grid-0.36.5    4.25.0-20241024
+```
+8. Confirm Selenium-grid is working, type k8s command
+```
+kubectl port-forward svc/selenium-grid-selenium-hub 4444:4444
+```
+9. Open a web browser and type URL
+```
+http://localhost:4444/ui/
+```
+10. You will see three browsers, Firefox, Edge and Chrome with the version supported from the Helm Chart previously installed.
+
+### Download Helm chart
+1. Now that we have a working Selenium-grid, we can pull that Helm Chart to our local directory and configure it
+2. Type helm command (where the syntax equals ```helm pull repo_name/path_to_chart``` )
+```
+helm pull docker-selenium/selenium-grid
+```
+3. This will download all your Helm chart contents in a zipped file. 
+4. Unzip the contents and copy them into your local folder i.e ```C:\SeleniumGrid```
+5. Key folders will be the ```charts``` folder which contains your **ingress-nginx** (load balancer) charts, **keda** (autoscaler) etc
+5. Key files will be the ```values.yaml``` which contains all the values used by your chart
+
+## Configure Helm chart
+1. Open ```values.yaml``` locate key ```chromeNode``` and the dictionary ```replicas```. Amend the default value 1 to how many replicas you would like _(replicas equals Chrome pods)_
+2. Upgrade the Chart, type helm command -(where the syntax equals ```helm upgrade chart_name repo_name/path_to_chart -f values.yaml```
+```
+helm upgrade selenium-grid docker-selenium/selenium-grid -f values.yaml 
+```
+3. Confirm Selenium-grid has been upgraded, type k8s command
+```
+kubectl port-forward svc/selenium-grid-selenium-hub 4444:4444
+```
+4. Open a web browser and type URL
+```
+http://localhost:4444/ui/
+```
+5. You will see twelve browsers, 1 x Firefox, 1 x Edge and 10 x Chrome with the version supported from the Helm Chart previously installed.
