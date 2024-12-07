@@ -1,95 +1,95 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
   <head>
     <title>Run Selenium-grid inside a Kubernetes Cluster</title>
+    <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	  <link rel="stylesheet" href="/css/animate.css">
+	  <link rel="stylesheet" href="/css/flexslider.css">
+	  <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+	  <link rel="stylesheet" href="/css/bootstrap.css">
+	  <link rel="stylesheet" href="/css/style.css">
+
+	  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700" rel="stylesheet">
   </head>
-  <body>
-    
-## Index
-- [Kubernetes Cluster](#kubernetes-cluster)
-  - [Grid Deployment](#grid-deployment)
-  - [Grid Deployment Rollback](#grid-deployment-rollback)
- 
-## Kubernetes Cluster
-### Grid Deployment
-1. Download this git repository
-2. Unzip contents into a new folder for example ```C:\git\seleniumgrid```
-3. Launch Docker desktop
-4. Open a terminal and navigate to ```C:\git\seleniumgrid```
-5. Check which cluster you are on by (a) Docker icon menu - kubernetes or (b) Type command - docker-desktop is the default
-```bash
-kubectl config get-contexts
-```
-6. Create new cluster namespace, type command
-```bash 
-kubectl create -f sgrid/namespace.yaml
-```
-7. Confirn namespace is created, type command
-```bash
-kubectl get namespaces
-```
-8. Update config to use new namespace, type command
-```bash
-kubectl config set-context --current --namespace=selenium-grid
-```
-9. Create the grid hub deployment, type command
-```bash
-kubectl create -f sgrid/hub-deployment.yaml
-```
-10. Confirm deployment is created, type command
-```bash
-kubectl get deployments
-```
-11. Create the grid services, type commands
-```bash
-kubectl create -f sgrid/hub-service.yaml
-```
-and
-```bash
-kubectl create -f sgrid/hub-service-pubsub.yaml
-```
-12. Comfirm services are created, type command
-```bash
-kubectl get services
-```
-13. Create the browser nodes, type command
-```bash
-kubectl create -f sgrid/node-chrome-deployment.yaml
-```
-or
-```bash
-kubectl create -f sgrid/node-firefox-deployment.yaml
-```
-14. Confirm pods are created and running, type command
-```bash
-kubectl get pods
-```
-15. Any pods not started, reboot using command
-```bash
-kubectl rollout restart deployment <deployment_name>
-```
-16. Expose the pods IP addresses, type command
-```bash
-kubectl expose deployment selenium-hub --type=LoadBalancer --name=selenium-hub
-```
-17. Expose the services to the internet, type command
-```bash
-kubectl create -f sgrid/hub-deploy-ingress.yaml
-```
-18. Get the URL address for yout grid
-```bash
-kubectl get ing
-```
-### Grid Deployment Rollback
-```bash
-kubectl get all -n selenium-grid
-kubectl get service
-kubectl delete service <your_service_name>
-kubectl get deployments
-kubectl delete deployment <deployment_name>
-kubectl delete pod
-kubectl delete replica <replicaset_name>
-kubectl delete namespace <namespace_name>
-```
- </body>
-</html>
+  
+    <body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
+
+      <nav class="navbar navbar-expand-lg site-navbar navbar-light bg-light" id="pb-navbar">
+
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample09">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="/index.html">[Home]</a></li>
+					<li class="nav-item"><a class="nav-link" href="#grid-deployment">[Grid Deployment]</a></li>
+          <li class="nav-item"><a class="nav-link" href="#grid-deployment-rollback">[Grid Deployment Rollback]</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+      <h1><strong>Kubernetes Cluster</strong></h1>
+      <section class="site-section" id="#grid-deployment">
+					<div class="resume-item mb-4">
+					<h2><strong>Grid Deployment</strong></h2>
+						<p>[1] Download this <a href="https://github.com/daymja/SeleniumGrid">git repository</a></p>
+						<p>[2] Unzip contents into a new folder for example <code>C:\git\seleniumgrid</code></p>
+						<p>[3] Launch Docker desktop</p>
+						<p>[4] Open a terminal and navigate to <code>C:\git\seleniumgrid</code></p>
+						<p>[5] Check which cluster you are on by (a) Docker icon menu - kubernetes or (b) Type command</p>
+						<p><code>kubectl config get-contexts</code></p>
+            <p>[6] Create new cluster namespace, type command</p>
+            <p><code>kubectl create -f sgrid/namespace.yaml</code></p>
+            <p>[7] Confirn namespace is created, type command</p>
+            <p><code>kubectl get namespaces</code></p>
+            <p>[8] Update config to use new namespace, type command</p>
+            <p><code>kubectl config set-context --current --namespace=selenium-grid</code></p>
+            <p>[9]  Create the grid hub deployment, type command</p>
+            <p><code>kubectl create -f sgrid/hub-deployment.yaml</code></p>
+            <p>[10] Confirm deployment is created, type command</p>
+            <p><code>kubectl get deployments</code></p>
+            <p>[11]  Create the grid services, type commands</p>
+            <p><code>kubectl create -f sgrid/hub-service.yaml</code></p>
+            <p><code>kubectl create -f sgrid/hub-service-pubsub.yaml</code></p>
+            <p>[12] Comfirm services are created, type command</p>
+            <p><code>kubectl get services</code></p>
+            <p>[13] Create the browser nodes, type command</p>
+            <p><code>kubectl create -f sgrid/node-chrome-deployment.yaml</code></p>
+            <p>or</p>
+            <p><code>kubectl create -f sgrid/node-firefox-deployment.yaml</code></p>
+            <p>[14] Confirm pods are created and running, type command</p>
+            <p><code>kubectl get pods</code></p>
+            <p>[15] Any pods not started, reboot using command</p>
+            <p><code>kubectl rollout restart deployment <deployment_name></code></p>
+            <p>[16]  Expose the pods IP addresses, type command</p>
+            <p><code>kubectl expose deployment selenium-hub --type=LoadBalancer --name=selenium-hub</code></p>
+            <p>[17] Expose the services to the internet, type command</p>
+            <p><code>kubectl create -f sgrid/hub-deploy-ingress.yaml</code></p>
+            <p>[18] Get the URL address for yout grid, type command</p>
+            <p><code>kubectl get ing</code></p>
+								</div>
+			</section>
+
+ <section class="site-section" id="#grid-deployment-rollback">
+					<div class="resume-item mb-4">
+					<h2><strong>Grid Deployment Rollback</strong></h2>
+            <p>Type these commands in sequence</p>
+            <p><code>kubectl get all -n selenium-grid</code></p>
+            <p><code>kubectl get service </code></p>
+            <p><code>kubectl delete service <your_service_name></code></p>
+            <p><code>kubectl get deployments</code></p>
+            <p><code>kubectl delete deployment <deployment_name></code></p>
+            <p><code>kubectl delete pod</code></p>
+            <p><code>kubectl delete replica <replicaset_name></code></p>
+            <p><code>kubectl delete namespace <namespace_name></code></p>
+				</div>
+			</section>
+
+    </body>
+    </html>
