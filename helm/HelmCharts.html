@@ -45,8 +45,7 @@
           <p>[ii] follow <a href="https://helm.sh/docs/intro/install/">[official documentation]</a> or <a href="https://phoenixnap.com/kb/kubernetes-on-windows">[recommendation]</a></p>
     </div>
 	</section>
-            
-<h2><strong>HELM</strong></h2>
+
           <section class="site-section" id="kubernetes-prerequisites">
 					<div class="resume-item mb-4">
 					<h2><strong>Kubernetes Prerequisites</strong></h2>
@@ -77,8 +76,8 @@
           <p>[7] Confirm Helm chart has been created, type Helm command</p>
           <p><code>helm list</code></p>
           <p>[8] You should see something similar to this</p>
-          <p><code>NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION</code>
-          selenium-grid   seleniumgrid    1               2024-11-03 10:18:29.3587239 +0000 UTC   deployed        selenium-grid-0.36.5    4.25.0-20241024</code></p>
+          <p><code>NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION</code><p>
+          <p><code>selenium-grid   seleniumgrid    1               2024-11-03 10:18:29.3587239 +0000 UTC   deployed        selenium-grid-0.36.5    4.25.0-20241024</code></p>
           <p>[9] Confirm Selenium-grid is working, type k8s command</p>
           <p><code>kubectl port-forward svc/selenium-grid-selenium-hub 4444:4444</code></p>
           <p>[10] Open a web browser and type URL</p>
