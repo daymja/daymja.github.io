@@ -42,7 +42,7 @@
           <p>This guide assumes you have basic knowledge of docker such as docker images, docker volume mount etc</p>
           <h3>Pre-requisites</h3>
           <p>[i] Docker tool either Docker Desktop or Rancher (enable Kubernetes in either)</p>
-          <p>[ii] follow <a href="https://helm.sh/docs/intro/install/">[official documentation]</a> or <a href="https://phoenixnap.com/kb/kubernetes-on-windows">[recommendation]</a></p>
+          <p>[ii] follow <a href="https://helm.sh/docs/intro/install/">[official documentation]</a> or <a href="https://phoenixnap.com/kb/kubernetes-on-windows">[alternative website]</a></p>
     </div>
 	</section>
 
@@ -63,7 +63,7 @@
    <section class="site-section" id="install-selenium-grid-using-helm">
 					<div class="resume-item mb-4">
 					<h2><strong>Install Selenium grid using HELM</strong></h2>
-          <p>[1] Using a terminal, navigate to your local folder previously created,  i.e C:\SeleniumGrid</p>
+          <p>[1] Using a terminal, navigate to your local folder previously created,  i.e <code>C:\SeleniumGrid</code></p>
           <p>[2] Add the docker-selenium helm repository, type helm command</p>
           <p><code>helm repo add docker-selenium https://www.selenium.dev/docker-selenium</code></p>
           <p>[3] Update the charts from the docker-selenium repo, type helm command</p>
@@ -94,8 +94,8 @@
           <p><code>helm pull docker-selenium/selenium-grid</code></p>
           <p>[2] This will download all your Helm chart contents in a zipped file.</p>
           <p>[3] Unzip the contents and copy them into your local folder i.e <code>C:\SeleniumGrid</code></p>
-          <p>[4] Key folders will be the <em>charts</em> folder which contains your <em>ingress-nginx</em> (load balancer) charts, <em>keda</em> (autoscaler) etc</p>
-          <p>[5] Key files will be the <em>values.yaml</em> which contains all the values used by your chart</p>
+          <p>[4] Key folders will be the <code>charts</code> folder which contains your <code>ingress-nginx</code> (load balancer) charts, <code>keda</code> (autoscaler) etc</p>
+          <p>[5] Key files will be the <code>values.yaml</code> which contains all the values used by your chart</p>
            </div>
 	</section>
 
