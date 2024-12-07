@@ -1,0 +1,88 @@
+### Run Selenium-grid inside a Kubernetes Cluster
+
+## Index
+- [Kubernetes Cluster](#kubernetes-cluster)
+  - [Grid Deployment](#grid-deployment)
+  - [Grid Deployment Rollback](#grid-deployment-rollback)
+ 
+## Kubernetes Cluster
+### Grid Deployment
+1. Download this git repository
+2. Unzip contents into a new folder for example ```C:\git\seleniumgrid```
+3. Launch Docker desktop
+4. Open a terminal and navigate to ```C:\git\seleniumgrid```
+5. Check which cluster you are on by (a) Docker icon menu - kubernetes or (b) Type command - docker-desktop is the default
+```bash
+kubectl config get-contexts
+```
+6. Create new cluster namespace, type command
+```bash 
+kubectl create -f sgrid/namespace.yaml
+```
+7. Confirn namespace is created, type command
+```bash
+kubectl get namespaces
+```
+8. Update config to use new namespace, type command
+```bash
+kubectl config set-context --current --namespace=selenium-grid
+```
+9. Create the grid hub deployment, type command
+```bash
+kubectl create -f sgrid/hub-deployment.yaml
+```
+10. Confirm deployment is created, type command
+```bash
+kubectl get deployments
+```
+11. Create the grid services, type commands
+```bash
+kubectl create -f sgrid/hub-service.yaml
+```
+and
+```bash
+kubectl create -f sgrid/hub-service-pubsub.yaml
+```
+12. Comfirm services are created, type command
+```bash
+kubectl get services
+```
+13. Create the browser nodes, type command
+```bash
+kubectl create -f sgrid/node-chrome-deployment.yaml
+```
+or
+```bash
+kubectl create -f sgrid/node-firefox-deployment.yaml
+```
+14. Confirm pods are created and running, type command
+```bash
+kubectl get pods
+```
+15. Any pods not started, reboot using command
+```bash
+kubectl rollout restart deployment <deployment_name>
+```
+16. Expose the pods IP addresses, type command
+```bash
+kubectl expose deployment selenium-hub --type=LoadBalancer --name=selenium-hub
+```
+17. Expose the services to the internet, type command
+```bash
+kubectl create -f sgrid/hub-deploy-ingress.yaml
+```
+18. Get the URL address for yout grid
+```bash
+kubectl get ing
+```
+### Grid Deployment Rollback
+```bash
+kubectl get all -n selenium-grid
+kubectl get service
+kubectl delete service <your_service_name>
+kubectl get deployments
+kubectl delete deployment <deployment_name>
+kubectl delete pod
+kubectl delete replica <replicaset_name>
+kubectl delete namespace <namespace_name>
+```
