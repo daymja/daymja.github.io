@@ -94,15 +94,15 @@
           <p><code>helm pull docker-selenium/selenium-grid</code></p>
           <p>[2] This will download all your Helm chart contents in a zipped file.</p>
           <p>[3] Unzip the contents and copy them into your local folder i.e <code>C:\SeleniumGrid</code></p>
-          <p>[4] Key folders will be the <strong>charts</strong> folder which contains your <strong>ingress-nginx</strong> (load balancer) charts, <strong>keda</strong> (autoscaler) etc</p>
-          <p>[5] Key files will be the <strong>values.yaml</strong>strong> which contains all the values used by your chart</p>
+          <p>[4] Key folders will be the <em>charts</em> folder which contains your <em>ingress-nginx</em> (load balancer) charts, <em>keda</em> (autoscaler) etc</p>
+          <p>[5] Key files will be the <em>values.yaml</em> which contains all the values used by your chart</p>
            </div>
 	</section>
 
  <section class="site-section" id="configure-helm-chart">
 					<div class="resume-item mb-4">
 					<h2><strong>Configure Helm chart</strong></h2>
-          <p>[1] Open <strong>values.yaml</strong>strong> locate key <strong>chromeNode</strong>strong> and the dictionary <strong>replicas</strong>strong>. Amend the default value 1 to how many replicas you would like <em>(replicas equals Chrome pods)</em></p>
+          <p>[1] Open <em>values.yaml</em> locate key <em>chromeNode</em> and the dictionary <em>replicas</em>. Amend the default value 1 to how many replicas you would like <em>(replicas equals Chrome pods)</em></p>
           <p>[2] Upgrade the Chart, type helm command -(where the syntax equals <em>helm upgrade chart_name repo_name/path_to_chart -f values.yaml</em></p>
           <p><code>helm upgrade selenium-grid docker-selenium/selenium-grid -f values.yaml </code></p>
           <p>[3] Confirm Selenium-grid has been upgraded, type k8s command</p>
