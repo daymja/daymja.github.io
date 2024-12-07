@@ -1,0 +1,40 @@
+### Run Selenium-grid using Docker
+
+## Index
+- Docker Compose
+  - [Launch Grid Docker Image](#launch-grid-docker-image)
+  - [End and Remove Grid Docker Image](#end-and-remove-grid-docker-image)
+  - [Update Grid Docker Image](#update-grid-docker-image)
+
+## Docker Compose
+### Launch Grid Docker Image
+1. Download this git repository
+2. Unzip contents into a new folder for example ```C:\git\seleniumgrid```
+3. Launch Docker desktop
+4. Open a terminal and navigate to ```C:\git\seleniumgrid```
+5. Check which cluster you are on by (a) Docker icon menu - kubernetes or (b) Type command - docker-desktop is the default
+```bash
+kubectl config get-contexts
+```
+6. Type command
+```bash
+docker compose -f docker-compose.yml up
+```
+7. Once all images have downloaded, open web browser and navigate to http://localhost:4444 which will display the Selenium grid (containing edge, chrome and firefox browser versions)
+
+### End and Remove Grid Docker Image
+1. In the Terminal running _docker compose_, type ```CTRL + C ```
+2. Type command
+```bash
+docker compose -f docker-compose.yml down
+```
+
+### Update Grid Docker Image
+1. Edit the ```docker-compose.yml``` file
+2. Update the following docker images to the latest version as detailed [here](https://hub.docker.com/r/selenium/node-chrome/tags)
+ ```bash
+- node-chrome:x.x.x
+- node-edge:x.x.x
+- node-firefox:x.x.x
+- hub:x.x.x
+```
