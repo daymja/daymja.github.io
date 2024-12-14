@@ -199,9 +199,6 @@ a {
     -ms-transform: translateX(-50%);
     transform: translateX(-50%); }
 
-pre {
-  color: #e83e8c; }
-
 .lead {
   font-weight: 200;
   line-height: 1.5; }
