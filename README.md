@@ -43,3 +43,9 @@ git: The term 'git' is not recognized as a name of a cmdlet, function, script fi
 ```javascript
 C:\Program Files\Git\cmd
 ```
+13. Once you start to use the Git commands, you will likely get error "Author identity unknown**
+```javascript
+ git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+```
+14. You will only need to configure this once
